@@ -32,10 +32,10 @@ public class IplServiceImpl {
 		return Response.status(200).entity(message).build();
 	}
 	
-	public Response getTeam(String teamName) {
+	public Team getTeam(String teamName) {
 		IplServicDaoImpl dao = new IplServicDaoImpl();
 		Team team = dao.getTeam(teamName);
-		return Response.status(200).entity(team).build();
+		return team;
 	}
 
 	public Response deleteTeam(String teamName) {

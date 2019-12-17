@@ -3,9 +3,12 @@ package com.redbus.pojo;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @Table(name = "iplTeam")
+@XmlRootElement(name="team")
 public class Team {
 
 	@Id

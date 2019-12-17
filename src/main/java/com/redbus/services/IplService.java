@@ -11,10 +11,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-
 import com.redbus.pojo.Team;
 import com.redbus.services.impl.IplServiceImpl;
 
@@ -29,29 +25,51 @@ public class IplService {
 		System.out.println("exiting wishMe!!");
 		return Response.status(200).entity(message).build();
 	}
-	
+
 	@POST
-	@Path(value="/registerTeam")
-	@Consumes(MediaType.APPLICATION_JSON)
+	@Path(value = "/registerTeam")
+	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Response registerForIpl(Team team) {
 		System.out.println("IplService :: registerForIpl");
 		IplServiceImpl service = new IplServiceImpl();
 		return service.registerForIpl(team);
 	}
+
+	@GET
+	@Path("/getTeamJson")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getTeamJson(@QueryParam("name") String teamName) {
+		System.out.println("Entered into getTeamJson : " + teamName);
+		IplServiceImpl service = new IplServiceImpl();
+		Team team = service.getTeam(teamName);
+		return Response.status(200).entity(team).build();
+	}
+
+	@GET
+	@Path("/getTeamXml")
+	@Produces(MediaType.APPLICATION_XML)
+	public Response getTeamInXml(@QueryParam("name") String teamName) {
+		System.out.println("Entered into getTeamInXml : " + teamName);
+		IplServiceImpl service = new IplServiceImpl();
+		Team team = service.getTeam(teamName);
+		return Response.status(200).entity(team).build();
+	}
 	
 	@GET
 	@Path("/getTeam")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Response getTeam(@QueryParam("name") String teamName) {
 		System.out.println("Entered into getTeam : " + teamName);
 		IplServiceImpl service = new IplServiceImpl();
-		return service.getTeam(teamName);
+		Team team = service.getTeam(teamName);
+		return Response.status(200).entity(team).build();
 	}
-	
+
 	@DELETE
-	@Path(value="/deleteTeam/{name}")
+	@Path(value = "/deleteTeam/{name}")
 	public Response deleteTeam(@PathParam("name") String teamName) {
 		IplServiceImpl service = new IplServiceImpl();
 		return service.deleteTeam(teamName);
 	}
+
 }
